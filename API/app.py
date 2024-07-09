@@ -8,7 +8,7 @@ import xgboost as xgb
 app = Flask(__name__)
 
 # Chemin vers le modèle pré-entraîné réduit
-model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'model', 'xgboost_model_reduced.pkl'))
+model_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'model', 'xgboost_model_VC.pkl'))
 
 # Vérifier si le modèle existe
 if not os.path.exists(model_path):
@@ -23,7 +23,7 @@ except Exception as e:
     exit(1)
 
 # Chemin vers le fichier CSV de données traitées
-data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data', 'processed_data.csv'))
+data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data', 'processed_data_encoded.csv'))
 
 # Charger les données à partir du fichier CSV
 try:
@@ -61,5 +61,5 @@ def predict():
         return jsonify({'error': 'SK_ID_CURR non trouvé dans les données'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5004)
 
