@@ -7,7 +7,7 @@ from xgboost import XGBClassifier
 app = Flask(__name__)
 
 # Chargement du modèle pré-entraîné
-model = joblib.load('model/xgboost_model.pkl')  
+model = joblib.load('model/xgboost_model_reduced.pkl')  
 
 @app.route('/predict', methods=['POST'])
 def predict():
