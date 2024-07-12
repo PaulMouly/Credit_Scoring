@@ -1,53 +1,85 @@
+
 from flask import Flask, request, jsonify
-import joblib
 import pandas as pd
-import sklearn
+import numpy as np
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OrdinalEncoder
+from xgboost import XGBClassifier
+import joblib
+import os
+
 
 app = Flask(__name__)
 
-# Chemin vers le modèle pré-entraîné
+# Chargement du modèle XGBoost
 model_path = 'C:/Users/paulm/Documents/Projet 7/Projet7withCSV/model/xgboost_model.pkl'
-# Chargement du modèle et du pipeline de prétraitement
-model_path = 'model/xgboost_model.pkl'
-preprocessing_path = 'C:/Users/paulm/Documents/Projet 7/Projet7withCSV/model/preprocessing_pipeline.pkl'
-
 model = joblib.load(model_path)
-preprocessing_pipeline = joblib.load(preprocessing_path)
 
-# Définir la route pour les prédictions
-@app.route('/predict', methods=['POST'])
+# Chargement des données originales pour la correspondance SK_ID_CURR
+chemin_dossier = "C:/Users/paulm/Documents/Projet 7/Projet7withCSV/data/"
+df_original = pd.read_csv(os.path.join(chemin_dossier, 'processed_data.csv'))
+
+# Définir la route pour les prédictions basées sur SK_ID_CURR
+@app.route('/predict', methods=['GET'])
 def predict():
     try:
-        # Récupérer les données JSON de la requête
-        data = request.get_json()
+        # Récupérer SK_ID_CURR à partir des paramètres de la requête
+        sk_id_curr = request.args.get('SK_ID_CURR')
 
-        # Créer un DataFrame pandas à partir des données JSON
-        df = pd.DataFrame(data, index=[0])
+        # Vérifier si SK_ID_CURR est présent
+        if not sk_id_curr:
+            return jsonify({'error': 'Veuillez fournir SK_ID_CURR en paramètre.'}), 400
 
-        # Appliquer le prétraitement
-        df_encoded = df.drop(columns=['SK_ID_CURR'])  # Supprimer SK_ID_CURR
-        for col in preprocessing_pipeline['drop_columns']:
-            if col in df_encoded.columns:
-                df_encoded.drop(columns=[col], inplace=True)  # Supprimer les colonnes à supprimer
+        print(f"SK_ID_CURR reçu : {sk_id_curr}")
 
-        for col in preprocessing_pipeline['inf_to_nan']:
-            if col in df_encoded.columns:
-                df_encoded = df_encoded[~np.isinf(df_encoded[col])]  # Supprimer les lignes avec infinies
+        # Récupérer les données correspondant à SK_ID_CURR depuis df_original
+        data_row = df_original[df_original['SK_ID_CURR'] == int(sk_id_curr)]
 
-        df_encoded = pd.DataFrame(preprocessing_pipeline['encoder'].transform(df_encoded))  # Encoder
-        df_encoded = pd.DataFrame(preprocessing_pipeline['imputer'].transform(df_encoded))  # Imputer
+        if data_row.empty:
+            return jsonify({'error': f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.'}), 404
 
-        # Ajouter SK_ID_CURR
-        df_encoded['SK_ID_CURR'] = df['SK_ID_CURR'].values
+        print("Données trouvées :")
+        print(data_row)
 
-        # Effectuer la prédiction avec le modèle
-        X = df_encoded.drop(columns=['TARGET'])
-        y_pred = model.predict(X)
+        # Prétraitement des données pour la prédiction
+        df = data_row.copy()  # Copie des données pour éviter les modifications sur les données originales
+
+        # Suppression des colonnes avec trop de valeurs uniques
+        colonnes_a_supprimer = ['ORGANIZATION_TYPE', 'OCCUPATION_TYPE']
+        df.drop(columns=colonnes_a_supprimer, inplace=True)
+
+        print("Données après suppression des colonnes :")
+        print(df)
+
+        # Gestion des valeurs infinies
+        df.replace([np.inf, -np.inf], np.nan, inplace=True)
+
+        # Encodage des variables catégorielles avec OrdinalEncoder
+        ordinal_encoder = OrdinalEncoder()
+        categorical_cols = df.select_dtypes(include='object').columns
+        df[categorical_cols] = ordinal_encoder.fit_transform(df[categorical_cols])
+
+        print("Données encodées :")
+        print(df)
+
+        # Gestion des valeurs manquantes avec SimpleImputer
+        imputer = SimpleImputer(strategy='mean')
+        df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
+
+        print("Données après imputation :")
+        print(df)
+
+        # Faire la prédiction avec le modèle XGBoost
+        X = df.drop(columns=['SK_ID_CURR'])
+        prediction = model.predict(X)
 
         # Formater la réponse en JSON
-        predictions = {'predictions': y_pred.tolist()}
+        result = {
+            'SK_ID_CURR': sk_id_curr,
+            'prediction': int(prediction[0])
+        }
 
-        return jsonify(predictions)
+        return jsonify(result), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
