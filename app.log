@@ -158,3 +158,70 @@ training data did not have the following fields: TARGET
 2024-07-15 11:41:04,772 INFO Shape des données avant prédiction : (1, 499)
 2024-07-15 11:41:04,775 ERROR Erreur lors de la prédiction : Feature shape mismatch, expected: 499, got 498
 2024-07-15 11:41:04,776 INFO 127.0.0.1 - - [15/Jul/2024 11:41:04] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-15 11:51:19,096 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-15 11:51:19,097 INFO [33mPress CTRL+C to quit[0m
+2024-07-15 11:51:21,570 INFO SK_ID_CURR reçu : 100002
+2024-07-15 11:51:21,577 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 11:51:21,587 ERROR Erreur lors de la prédiction : Feature shape mismatch, expected: 499, got 498
+2024-07-15 11:51:21,589 INFO 127.0.0.1 - - [15/Jul/2024 11:51:21] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-15 12:05:17,340 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-15 12:05:17,340 INFO [33mPress CTRL+C to quit[0m
+2024-07-15 12:05:23,636 INFO SK_ID_CURR reçu : 100002
+2024-07-15 12:05:23,668 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:05:23,685 ERROR Erreur lors de la prédiction : Feature shape mismatch, expected: 499, got 498
+2024-07-15 12:05:23,687 INFO 127.0.0.1 - - [15/Jul/2024 12:05:23] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-15 12:11:38,829 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-15 12:11:38,829 INFO [33mPress CTRL+C to quit[0m
+2024-07-15 12:11:40,570 INFO SK_ID_CURR reçu : 100002
+2024-07-15 12:11:40,574 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:11:40,575 ERROR Erreur lors de la prédiction : name 'X' is not defined
+2024-07-15 12:11:40,577 INFO 127.0.0.1 - - [15/Jul/2024 12:11:40] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-15 12:13:06,965 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-15 12:13:06,966 INFO [33mPress CTRL+C to quit[0m
+2024-07-15 12:13:08,588 INFO SK_ID_CURR reçu : 100002
+2024-07-15 12:13:08,591 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:13:08,603 INFO 127.0.0.1 - - [15/Jul/2024 12:13:08] "GET /predict?SK_ID_CURR=100002 HTTP/1.1" 200 -
+2024-07-15 12:13:35,723 INFO SK_ID_CURR reçu : 2
+2024-07-15 12:13:35,724 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:13:35,728 INFO 127.0.0.1 - - [15/Jul/2024 12:13:35] "GET /predict?SK_ID_CURR=2 HTTP/1.1" 200 -
+2024-07-15 12:13:43,292 INFO SK_ID_CURR reçu : 167777
+2024-07-15 12:13:43,293 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:13:43,299 INFO 127.0.0.1 - - [15/Jul/2024 12:13:43] "GET /predict?SK_ID_CURR=167777 HTTP/1.1" 200 -
+2024-07-15 12:13:54,053 INFO SK_ID_CURR reçu : 123444
+2024-07-15 12:13:54,055 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:13:54,060 INFO 127.0.0.1 - - [15/Jul/2024 12:13:54] "GET /predict?SK_ID_CURR=123444 HTTP/1.1" 200 -
+2024-07-15 12:14:03,197 INFO SK_ID_CURR reçu : 25082004
+2024-07-15 12:14:03,198 WARNING Aucune donnée trouvée pour SK_ID_CURR 25082004
+2024-07-15 12:14:03,198 INFO 127.0.0.1 - - [15/Jul/2024 12:14:03] "[33mGET /predict?SK_ID_CURR=25082004 HTTP/1.1[0m" 404 -
+2024-07-15 12:14:07,534 INFO SK_ID_CURR reçu : 2508200
+2024-07-15 12:14:07,535 WARNING Aucune donnée trouvée pour SK_ID_CURR 2508200
+2024-07-15 12:14:07,535 INFO 127.0.0.1 - - [15/Jul/2024 12:14:07] "[33mGET /predict?SK_ID_CURR=2508200 HTTP/1.1[0m" 404 -
+2024-07-15 12:14:11,528 INFO SK_ID_CURR reçu : 25082
+2024-07-15 12:14:11,531 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:14:11,540 INFO 127.0.0.1 - - [15/Jul/2024 12:14:11] "GET /predict?SK_ID_CURR=25082 HTTP/1.1" 200 -
+2024-07-15 12:17:02,742 INFO SK_ID_CURR reçu : 25082
+2024-07-15 12:17:02,745 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:17:02,753 INFO 127.0.0.1 - - [15/Jul/2024 12:17:02] "GET /predict?SK_ID_CURR=25082 HTTP/1.1" 200 -
+2024-07-15 12:17:02,803 INFO 127.0.0.1 - - [15/Jul/2024 12:17:02] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2024-07-15 12:20:32,713 INFO SK_ID_CURR reçu : 22112
+2024-07-15 12:20:32,715 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:20:32,723 INFO 127.0.0.1 - - [15/Jul/2024 12:20:32] "GET /predict?SK_ID_CURR=22112 HTTP/1.1" 200 -
+2024-07-15 12:20:50,988 INFO SK_ID_CURR reçu : 13032
+2024-07-15 12:20:50,989 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:20:50,995 INFO 127.0.0.1 - - [15/Jul/2024 12:20:50] "GET /predict?SK_ID_CURR=13032 HTTP/1.1" 200 -
+2024-07-15 12:21:07,707 INFO SK_ID_CURR reçu : 17031
+2024-07-15 12:21:07,708 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:21:07,714 INFO 127.0.0.1 - - [15/Jul/2024 12:21:07] "GET /predict?SK_ID_CURR=17031 HTTP/1.1" 200 -
+2024-07-15 12:21:13,799 INFO SK_ID_CURR reçu : 2
+2024-07-15 12:21:13,800 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:21:13,806 INFO 127.0.0.1 - - [15/Jul/2024 12:21:13] "GET /predict?SK_ID_CURR=2 HTTP/1.1" 200 -
+2024-07-15 12:21:20,771 INFO SK_ID_CURR reçu : 187
+2024-07-15 12:21:20,773 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:21:20,784 INFO 127.0.0.1 - - [15/Jul/2024 12:21:20] "GET /predict?SK_ID_CURR=187 HTTP/1.1" 200 -
+2024-07-15 12:21:28,845 INFO SK_ID_CURR reçu : 23456
+2024-07-15 12:21:28,847 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 12:21:28,853 INFO 127.0.0.1 - - [15/Jul/2024 12:21:28] "GET /predict?SK_ID_CURR=23456 HTTP/1.1" 200 -

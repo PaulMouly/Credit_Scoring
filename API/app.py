@@ -51,8 +51,10 @@ def predict():
         # Vérifiez la forme des données avant la prédiction
         logger.info(f"Shape des données avant prédiction : {df.shape}")
 
-        X = df.drop(columns=['SK_ID_CURR'])
-        X_np = X.values  # Convertir en matrice NumPy
+        # Réorganiser les colonnes selon l'ordre attendu par le modèle
+        df = df[cols_when_model_builds]
+
+        X_np = df.values  # Convertir en matrice NumPy
 
         prediction = model.predict(X_np)
 
@@ -66,3 +68,4 @@ def predict():
     except Exception as e:
         logger.error(f"Erreur lors de la prédiction : {e}")
         return jsonify({'error': str(e)}), 400
+
