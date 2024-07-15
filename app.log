@@ -144,3 +144,17 @@ training data did not have the following fields: TARGET
 2024-07-15 10:34:29,132 WARNING Il y a des valeurs manquantes dans les données à prédire.
 2024-07-15 10:34:29,135 ERROR Erreur lors de la prédiction : Feature shape mismatch, expected: 499, got 498
 2024-07-15 10:34:29,136 INFO 127.0.0.1 - - [15/Jul/2024 10:34:29] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-15 11:39:55,920 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-15 11:39:55,921 INFO [33mPress CTRL+C to quit[0m
+2024-07-15 11:39:59,442 INFO SK_ID_CURR reçu : 100002
+2024-07-15 11:39:59,452 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 11:39:59,466 ERROR Erreur lors de la prédiction : Feature shape mismatch, expected: 499, got 498
+2024-07-15 11:39:59,468 INFO 127.0.0.1 - - [15/Jul/2024 11:39:59] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-15 11:40:59,797 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-15 11:40:59,798 INFO [33mPress CTRL+C to quit[0m
+2024-07-15 11:41:04,769 INFO SK_ID_CURR reçu : 100002
+2024-07-15 11:41:04,772 INFO Shape des données avant prédiction : (1, 499)
+2024-07-15 11:41:04,775 ERROR Erreur lors de la prédiction : Feature shape mismatch, expected: 499, got 498
+2024-07-15 11:41:04,776 INFO 127.0.0.1 - - [15/Jul/2024 11:41:04] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
