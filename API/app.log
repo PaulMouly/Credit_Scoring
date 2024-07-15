@@ -1,0 +1,21 @@
+2024-07-14 21:19:15,629 INFO SK_ID_CURR reçu : 100002
+2024-07-14 21:19:15,667 INFO Data frame à renvoyer: None
+2024-07-14 21:19:15,668 INFO Données trouvées pour SK_ID_CURR
+2024-07-14 21:19:15,668 INFO Colonnes inutiles supprimées
+2024-07-14 21:19:15,674 INFO Variables catégorielles encodées
+2024-07-14 21:19:15,681 ERROR Erreur lors de la prédiction : Shape of passed values is (1, 416), indices imply (1, 500)
+2024-07-14 21:19:15,681 INFO 127.0.0.1 - - [14/Jul/2024 21:19:15] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-14 21:22:30,098 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-14 21:22:30,099 INFO [33mPress CTRL+C to quit[0m
+2024-07-14 21:22:31,711 INFO SK_ID_CURR reçu : 100002
+2024-07-14 21:22:31,747 INFO Data frame à renvoyer: <bound method DataFrame.to_string of    SK_ID_CURR  TARGET  ... CC_NAME_CONTRACT_STATUS_Signed_MEAN CC_NAME_CONTRACT_STATUS_nan_MEAN
+0      100002       1  ...                                 NaN                              NaN
+
+[1 rows x 502 columns]>
+2024-07-14 21:22:31,748 INFO data_row empty ?: False
+2024-07-14 21:22:31,748 INFO Données trouvées pour SK_ID_CURR
+2024-07-14 21:22:31,748 INFO Colonnes inutiles supprimées
+2024-07-14 21:22:31,752 INFO Variables catégorielles encodées
+2024-07-14 21:22:31,760 ERROR Erreur lors de la prédiction : Shape of passed values is (1, 416), indices imply (1, 500)
+2024-07-14 21:22:31,760 INFO 127.0.0.1 - - [14/Jul/2024 21:22:31] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
