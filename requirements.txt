@@ -4,4 +4,7 @@ scikit-learn
 xgboost
 mlflow
 evidently
+flask
+joblib
+pytest
 
