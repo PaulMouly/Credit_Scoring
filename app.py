@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 import pandas as pd
 from xgboost import XGBClassifier
@@ -21,7 +20,7 @@ logger = logging.getLogger(__name__)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Spécifier le chemin relatif du fichier modèle
-model_path = os.path.join(current_dir, '..', 'model', 'xgboost_model.pkl')
+model_path = os.path.join(current_dir, 'model', 'xgboost_model.pkl')
 # Charger le modèle
 try:
     model = joblib.load(model_path)
@@ -31,7 +30,7 @@ except FileNotFoundError:
     model = None
 
 # Spécifier le chemin relatif du fichier de données prétraitées
-processed_data_path = os.path.join(current_dir, '..', 'data', 'X_prediction.csv')
+processed_data_path = os.path.join(current_dir, 'data', 'X_prediction.csv')
 # Charger les données prétraitées
 try:
     df_prediction = pd.read_csv(processed_data_path)
@@ -41,7 +40,10 @@ except FileNotFoundError:
     df_prediction = None
 
 # Extraction des noms de colonnes utilisées pour l'entraînement
-cols_when_model_builds = model.get_booster().feature_names
+if model:
+    cols_when_model_builds = model.get_booster().feature_names
+else:
+    cols_when_model_builds = []
 
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -83,4 +85,8 @@ def predict():
     except Exception as e:
         logger.error(f"Erreur lors de la prédiction : {e}")
         return jsonify({'error': str(e)}), 400
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5002)))
+
 
