@@ -33,3 +33,21 @@
 2024-07-22 09:57:22,095 INFO SK_ID_CURR reçu : 23457
 2024-07-22 09:57:22,096 INFO Shape des données avant prédiction : (1, 499)
 2024-07-22 09:57:22,104 INFO 127.0.0.1 - - [22/Jul/2024 09:57:22] "GET /predict?SK_ID_CURR=23457 HTTP/1.1" 200 -
+2024-07-22 09:58:30,282 INFO SK_ID_CURR reçu : 253455
+2024-07-22 09:58:30,283 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 09:58:30,288 INFO 127.0.0.1 - - [22/Jul/2024 09:58:30] "GET /predict?SK_ID_CURR=253455 HTTP/1.1" 200 -
+2024-07-22 09:58:59,019 INFO SK_ID_CURR reçu : 23457
+2024-07-22 09:58:59,020 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 09:58:59,026 INFO 127.0.0.1 - - [22/Jul/2024 09:58:59] "GET /predict?SK_ID_CURR=23457 HTTP/1.1" 200 -
+2024-07-22 09:59:04,868 INFO SK_ID_CURR reçu : 23
+2024-07-22 09:59:04,869 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 09:59:04,875 INFO 127.0.0.1 - - [22/Jul/2024 09:59:04] "GET /predict?SK_ID_CURR=23 HTTP/1.1" 200 -
+2024-07-22 09:59:11,996 INFO SK_ID_CURR reçu : 23
+2024-07-22 09:59:11,997 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 09:59:12,002 INFO 127.0.0.1 - - [22/Jul/2024 09:59:12] "GET /predict?SK_ID_CURR=23 HTTP/1.1" 200 -
+2024-07-22 10:16:43,046 INFO Modèle chargé avec succès
+2024-07-22 10:16:51,763 INFO Données prétraitées chargées avec succès
+2024-07-22 10:16:51,773 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-22 10:16:51,773 INFO [33mPress CTRL+C to quit[0m
+2024-07-22 10:18:42,711 INFO Modèle chargé avec succès
