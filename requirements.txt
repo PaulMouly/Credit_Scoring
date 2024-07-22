@@ -2,9 +2,6 @@ numpy
 pandas
 scikit-learn
 xgboost
-mlflow
-evidently
 flask
 joblib
-pytest
 gunicorn
