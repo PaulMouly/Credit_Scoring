@@ -20,3 +20,16 @@
 2024-07-14 21:22:31,760 ERROR Erreur lors de la prédiction : Shape of passed values is (1, 416), indices imply (1, 500)
 2024-07-14 21:22:31,760 INFO 127.0.0.1 - - [14/Jul/2024 21:22:31] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
 2024-07-22 09:56:56,783 INFO Modèle chargé avec succès
+2024-07-22 09:57:05,239 INFO Données prétraitées chargées avec succès
+2024-07-22 09:57:05,250 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-22 09:57:05,250 INFO [33mPress CTRL+C to quit[0m
+2024-07-22 09:57:13,393 INFO SK_ID_CURR reçu : 23456
+2024-07-22 09:57:13,394 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 09:57:13,400 INFO 127.0.0.1 - - [22/Jul/2024 09:57:13] "GET /predict?SK_ID_CURR=23456 HTTP/1.1" 200 -
+2024-07-22 09:57:17,306 INFO SK_ID_CURR reçu : 23456
+2024-07-22 09:57:17,307 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 09:57:17,313 INFO 127.0.0.1 - - [22/Jul/2024 09:57:17] "GET /predict?SK_ID_CURR=23456 HTTP/1.1" 200 -
+2024-07-22 09:57:22,095 INFO SK_ID_CURR reçu : 23457
+2024-07-22 09:57:22,096 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 09:57:22,104 INFO 127.0.0.1 - - [22/Jul/2024 09:57:22] "GET /predict?SK_ID_CURR=23457 HTTP/1.1" 200 -
