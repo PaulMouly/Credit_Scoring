@@ -19,3 +19,4 @@
 2024-07-14 21:22:31,752 INFO Variables catégorielles encodées
 2024-07-14 21:22:31,760 ERROR Erreur lors de la prédiction : Shape of passed values is (1, 416), indices imply (1, 500)
 2024-07-14 21:22:31,760 INFO 127.0.0.1 - - [14/Jul/2024 21:22:31] "[31m[1mGET /predict?SK_ID_CURR=100002 HTTP/1.1[0m" 400 -
+2024-07-22 09:56:56,783 INFO Modèle chargé avec succès

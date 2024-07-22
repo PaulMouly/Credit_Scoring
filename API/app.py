@@ -17,13 +17,28 @@ logging.basicConfig(level=logging.INFO,
 
 logger = logging.getLogger(__name__)
 
-# Chargement du modèle XGBoost
-model_path = 'C:/Users/paulm/Documents/Projet 7/Projet7withCSV/model/xgboost_model.pkl'
-model = joblib.load(model_path)
+# Obtenir le chemin absolu du répertoire courant
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Chargement des données prétraitées depuis le CSV
-processed_data_path = 'C:/Users/paulm/Documents/Projet 7/Projet7withCSV/data/X_prediction.csv'
-df_prediction = pd.read_csv(processed_data_path)
+# Spécifier le chemin relatif du fichier modèle
+model_path = os.path.join(current_dir, '..', 'model', 'xgboost_model.pkl')
+# Charger le modèle
+try:
+    model = joblib.load(model_path)
+    logger.info("Modèle chargé avec succès")
+except FileNotFoundError:
+    logger.error(f"Le fichier modèle à l'emplacement {model_path} est introuvable.")
+    model = None
+
+# Spécifier le chemin relatif du fichier de données prétraitées
+processed_data_path = os.path.join(current_dir, '..', 'data', 'X_prediction.csv')
+# Charger les données prétraitées
+try:
+    df_prediction = pd.read_csv(processed_data_path)
+    logger.info("Données prétraitées chargées avec succès")
+except FileNotFoundError:
+    logger.error(f"Le fichier de données prétraitées à l'emplacement {processed_data_path} est introuvable.")
+    df_prediction = None
 
 # Extraction des noms de colonnes utilisées pour l'entraînement
 cols_when_model_builds = model.get_booster().feature_names
