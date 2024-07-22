@@ -51,3 +51,7 @@
  * Running on http://127.0.0.1:5002
 2024-07-22 10:16:51,773 INFO [33mPress CTRL+C to quit[0m
 2024-07-22 10:18:42,711 INFO Modèle chargé avec succès
+2024-07-22 10:18:51,179 INFO Données prétraitées chargées avec succès
+2024-07-22 10:18:51,187 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5002
+2024-07-22 10:18:51,188 INFO [33mPress CTRL+C to quit[0m
