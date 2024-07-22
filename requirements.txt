@@ -7,4 +7,4 @@ evidently
 flask
 joblib
 pytest
-
+gunicorn
