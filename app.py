@@ -31,7 +31,7 @@ except FileNotFoundError:
     model = None
 
 # Spécifier le chemin relatif du fichier de données prétraitées
-processed_data_path = os.path.join(current_dir, 'data', 'X_prediction.csv')
+processed_data_path = os.path.join(current_dir, 'data', 'X_predictionV1.csv')
 # Charger les données prétraitées
 try:
     df_prediction = pd.read_csv(processed_data_path)
@@ -68,9 +68,14 @@ def predict():
         except ValueError:
             logger.error(f"SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.")
             return jsonify({'error': f'SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.'}), 400
-
+        try:
         # Récupérer les données correspondant à SK_ID_CURR depuis df_prediction
-        data_row = df_prediction[df_prediction['SK_ID_CURR'] == sk_id_curr]
+            data_row = df_prediction[df_prediction['SK_ID_CURR'] == sk_id_curr]
+            logger.info("data Row is : ", data_row)
+        except Exception as e: 
+            logger.error(f"Erreur dans la récupération des données: {e}")
+            return jsonify({'error': str(e)})
+        
 
         if data_row.empty:
             logger.warning(f"Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}")
