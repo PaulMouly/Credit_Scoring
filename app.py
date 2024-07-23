@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import numpy as np
 import pandas as pd
 from xgboost import XGBClassifier
 import joblib
@@ -85,5 +86,3 @@ def predict():
     except Exception as e:
         logger.error(f"Erreur lors de la prédiction : {e}")
         return jsonify({'error': str(e)}), 400
-
-
