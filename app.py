@@ -71,7 +71,7 @@ def predict():
         try:
         # Récupérer les données correspondant à SK_ID_CURR depuis df_prediction
             data_row = df_prediction[df_prediction['SK_ID_CURR'] == sk_id_curr]
-            logger.info("data Row is : ", data_row)
+
         except Exception as e: 
             logger.error(f"Erreur dans la récupération des données: {e}")
             return jsonify({'error': str(e)})
