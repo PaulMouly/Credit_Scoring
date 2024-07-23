@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import pandas as pd
-import numpy as np  # Ajout de l'importation de numpy
+import numpy as np
 from xgboost import XGBClassifier
 import joblib
 import os
@@ -29,6 +29,9 @@ try:
 except FileNotFoundError:
     logger.error(f"Le fichier modèle à l'emplacement {model_path} est introuvable.")
     model = None
+except Exception as e:
+    logger.error(f"Erreur lors du chargement du modèle : {e}")
+    model = None
 
 # Spécifier le chemin relatif du fichier de données prétraitées
 processed_data_path = os.path.join(current_dir, 'data', 'X_predictionV1.csv')
@@ -40,11 +43,18 @@ try:
 except FileNotFoundError:
     logger.error(f"Le fichier de données prétraitées à l'emplacement {processed_data_path} est introuvable.")
     df_prediction = None
+except Exception as e:
+    logger.error(f"Erreur lors du chargement des données prétraitées : {e}")
+    df_prediction = None
 
 # Extraction des noms de colonnes utilisées pour l'entraînement
-if model:
-    cols_when_model_builds = model.get_booster().feature_names
-else:
+try:
+    if model:
+        cols_when_model_builds = model.get_booster().feature_names
+    else:
+        cols_when_model_builds = []
+except Exception as e:
+    logger.error(f"Erreur lors de l'extraction des noms de colonnes du modèle : {e}")
     cols_when_model_builds = []
 
 @app.route('/')
@@ -68,41 +78,55 @@ def predict():
         except ValueError:
             logger.error(f"SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.")
             return jsonify({'error': f'SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.'}), 400
-        try:
-        # Récupérer les données correspondant à SK_ID_CURR depuis df_prediction
-            data_row = df_prediction[df_prediction['SK_ID_CURR'] == sk_id_curr]
-
-        except Exception as e: 
-            logger.error(f"Erreur dans la récupération des données: {e}")
-            return jsonify({'error': str(e)})
         
+        try:
+            # Récupérer les données correspondant à SK_ID_CURR depuis df_prediction
+            data_row = df_prediction[df_prediction['SK_ID_CURR'] == sk_id_curr]
+            logger.info(f"data_row is : {data_row}")
+        except KeyError:
+            logger.error(f"SK_ID_CURR n'existe pas dans les colonnes de df_prediction")
+            return jsonify({'error': f"SK_ID_CURR n'existe pas dans les colonnes de df_prediction"}), 400
+        except Exception as e:
+            logger.error(f"Erreur dans la récupération des données: {e}")
+            return jsonify({'error': str(e)}), 400
 
         if data_row.empty:
             logger.warning(f"Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}")
             return jsonify({'error': f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.'}), 404
 
-        df = data_row.copy()
+        try:
+            df = data_row.copy()
+            # Vérifiez la forme des données avant la prédiction
+            logger.info(f"Shape des données avant prédiction : {df.shape}")
 
-        # Vérifiez la forme des données avant la prédiction
-        logger.info(f"Shape des données avant prédiction : {df.shape}")
+            # Réorganiser les colonnes selon l'ordre attendu par le modèle
+            df = df[cols_when_model_builds]
+        except KeyError as e:
+            logger.error(f"Erreur lors de la réorganisation des colonnes: {e}")
+            return jsonify({'error': f"Les colonnes nécessaires pour le modèle sont manquantes : {str(e)}"}), 400
+        except Exception as e:
+            logger.error(f"Erreur lors de la préparation des données pour la prédiction: {e}")
+            return jsonify({'error': str(e)}), 400
 
-        # Réorganiser les colonnes selon l'ordre attendu par le modèle
-        df = df[cols_when_model_builds]
+        try:
+            X_np = df.values  # Convertir en matrice NumPy
 
-        X_np = df.values  # Convertir en matrice NumPy
+            # Faire la prédiction
+            prediction = model.predict(X_np)
 
-        # Faire la prédiction
-        prediction = model.predict(X_np)
+            result = {
+                'SK_ID_CURR': sk_id_curr,
+                'prediction': int(prediction[0])
+            }
 
-        result = {
-            'SK_ID_CURR': sk_id_curr,
-            'prediction': int(prediction[0])
-        }
+            return jsonify(result), 200
 
-        return jsonify(result), 200
+        except Exception as e:
+            logger.error(f"Erreur lors de la prédiction : {e}")
+            return jsonify({'error': str(e)}), 400
 
     except Exception as e:
-        logger.error(f"Erreur lors de la prédiction : {e}")
+        logger.error(f"Erreur lors de la gestion de la requête : {e}")
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
