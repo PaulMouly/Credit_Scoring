@@ -225,3 +225,14 @@ training data did not have the following fields: TARGET
 2024-07-15 12:21:28,845 INFO SK_ID_CURR reçu : 23456
 2024-07-15 12:21:28,847 INFO Shape des données avant prédiction : (1, 499)
 2024-07-15 12:21:28,853 INFO 127.0.0.1 - - [15/Jul/2024 12:21:28] "GET /predict?SK_ID_CURR=23456 HTTP/1.1" 200 -
+2024-07-22 16:01:10,328 INFO Modèle chargé avec succès
+2024-07-22 16:01:19,197 INFO Données prétraitées chargées avec succès
+2024-07-22 16:01:19,200 INFO Serving on http://0.0.0.0:5002
+2024-07-22 16:02:27,527 INFO SK_ID_CURR reçu : 23
+2024-07-22 16:02:27,531 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 16:03:05,744 INFO SK_ID_CURR reçu : 23
+2024-07-22 16:03:05,745 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 16:03:14,852 INFO SK_ID_CURR reçu : 21223
+2024-07-22 16:03:14,852 INFO Shape des données avant prédiction : (1, 499)
+2024-07-22 16:53:28,905 INFO SK_ID_CURR reçu : 12345
+2024-07-22 16:53:28,907 INFO Shape des données avant prédiction : (1, 499)
