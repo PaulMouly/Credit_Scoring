@@ -5,6 +5,7 @@ from xgboost import XGBClassifier
 import joblib
 import os
 import logging
+import sys
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s',
                     handlers=[
                         logging.FileHandler("app.log", encoding="utf-8"),
-                        logging.StreamHandler()
+                        logging.StreamHandler(sys.stdout)
                     ])
 
 logger = logging.getLogger(__name__)
@@ -82,9 +83,8 @@ def predict():
         try:
             # Récupérer les données correspondant à SK_ID_CURR depuis df_prediction
             
-            logger.info(f"df_prediction value", df_prediction['SK_ID_CURR'].tolist())
-            logger.info(f"data_row is : {df_prediction['SK_ID_CURR']}")
-            logger.info(f"sk_id_curr type is : ", type(sk_id_curr))
+            logger.info(f"Valeurs de df_prediction['SK_ID_CURR'] : {df_prediction['SK_ID_CURR'].tolist()}")
+            logger.info(f"Type de sk_id_curr : {type(sk_id_curr)}")
             logger.info(f"data_row is : {df_prediction['SK_ID_CURR'] == sk_id_curr}")
             data_row = df_prediction[df_prediction['SK_ID_CURR'] == sk_id_curr]
 
