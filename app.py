@@ -82,7 +82,11 @@ def predict():
         try:
             # Récupérer les données correspondant à SK_ID_CURR depuis df_prediction
             data_row = df_prediction[df_prediction['SK_ID_CURR'] == sk_id_curr]
-            logger.info(f"data_row is : {data_row}")
+            logger.info(f"df_prediction value", df_prediction['SK_ID_CURR'].tolist())
+            logger.info(f"data_row is : {df_prediction['SK_ID_CURR']}")
+            logger.info(f"sk_id_curr type is : ", type(sk_id_curr))
+            logger.info(f"data_row is : {df_prediction['SK_ID_CURR'] == sk_id_curr}")
+
         except KeyError:
             logger.error(f"SK_ID_CURR n'existe pas dans les colonnes de df_prediction")
             return jsonify({'error': f"SK_ID_CURR n'existe pas dans les colonnes de df_prediction"}), 400
