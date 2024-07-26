@@ -6,12 +6,12 @@ WORKDIR /app
 
 RUN yum install -y git git-lfs python39 python39-pip \
     && git lfs install \
-    && git clone https://github.com/PaulMouly/Projet7withCSV.git \
-    && cd ./HerokuApiDevelopment \
-    && git lfs pull -I ./app/data/X_predictionV1.csv \
-    && cd ./app \
+    && git clone -b HerokuApiDevelopment https://github.com/PaulMouly/Projet7withCSV.git \
+    && cd ./Projet7withCSV \
+    && git lfs pull -I ./API/data/X_predictionV1.csv \
+    && cd ./API \
     && pip3 install --no-cache-dir --upgrade -r ./requirements.txt 
 
 ENTRYPOINT [ "python3" ]
 
-CMD ["/app/HerokuApiDevelopment/app/app.py"]
+CMD ["/app/Projet7withCSV/API/app.py"]
