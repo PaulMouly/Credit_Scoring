@@ -79,8 +79,6 @@ def predict():
                 if 'SK_ID_CURR' not in chunk.columns:
                     app.logger.error("'SK_ID_CURR' column is missing from the CSV.")
                     continue
-                app.logger.info(f"Columns in chunk: {chunk.columns.tolist()[:10]}")
-                app.logger.info("Chunk read successfully.")
                 data_row = chunk[chunk['SK_ID_CURR'] == sk_id_curr]
                 if not data_row.empty:
                     data_found = True
@@ -95,6 +93,10 @@ def predict():
             app.logger.error(f"An error occurred: {str(e)}")
             return jsonify({'error': 'Une erreur est survenue lors de la lecture du fichier.'}), 500
         
+        if not data_found:
+            app.logger.warning("Aucune donnée trouvée pour SK_ID_CURR %s", sk_id_curr)
+            return jsonify({'error': f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.'}), 404
+
         try:
             df = data_row.copy()
             # Vérifiez la forme des données avant la prédiction
