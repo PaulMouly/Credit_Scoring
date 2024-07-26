@@ -74,18 +74,23 @@ def predict():
         # Lire le fichier CSV en morceaux et filtrer les données
         data_found = False
         app.logger.info(os.path.exists(processed_data_path))
-        for chunk in pd.read_csv(processed_data_path, chunksize=2000):
-            app.logger.info("OK")
-            data_row = chunk[chunk['SK_ID_CURR'] == sk_id_curr]
-            app.logger.info("OK")
-            if not data_row.empty:
-                data_found = True
-                break
-        app.logger.info("OK")
-        if not data_found:
-            app.logger.warning("Aucune donnée trouvée pour SK_ID_CURR %s", sk_id_curr)
-            return jsonify({'error': f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.'}), 404
-
+        try:
+            for chunk in pd.read_csv(processed_data_path, chunksize=2000):
+                app.logger.info("Chunk read successfully.")
+                data_row = chunk[chunk['SK_ID_CURR'] == sk_id_curr]
+                if not data_row.empty:
+                    data_found = True
+                    break
+        except FileNotFoundError:
+            app.logger.error(f"File not found: {processed_data_path}")
+            return jsonify({'error': 'Fichier non trouvé.'}), 404
+        except pd.errors.EmptyDataError:
+            app.logger.error(f"No data: {processed_data_path} is empty or corrupted.")
+            return jsonify({'error': 'Le fichier est vide ou corrompu.'}), 400
+        except Exception as e:
+            app.logger.error(f"An error occurred: {str(e)}")
+            return jsonify({'error': 'Une erreur est survenue lors de la lecture du fichier.'}), 500
+        
         try:
             df = data_row.copy()
             # Vérifiez la forme des données avant la prédiction
