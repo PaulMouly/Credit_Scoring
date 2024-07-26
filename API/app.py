@@ -118,8 +118,6 @@ def predict():
         app.logger.error(f"Erreur lors de la gestion de la requête : {e}")
         return jsonify({'error': str(e)}), 400
 
-
-
 #def 
 
 if __name__ == '__main__':
