@@ -1,0 +1,12 @@
+# Ignore logs
+*.log
+
+# Ignore specific directories
+/app/test/
+@app/scripts/
+/app/README.md
+/app/deadrequirement.txt
+
+# Ignore specific files
+/app/.gitignore
+/app/run.py
