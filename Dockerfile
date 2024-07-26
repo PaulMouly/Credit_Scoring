@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN yum install -y git git-lfs python39 python39-pip \
     && git lfs install \
-    && git clone -b HerokuApiDevelopment https://github.com/PaulMouly/Projet7withCSV.git \
+    && git clone -b api-development https://github.com/PaulMouly/Projet7withCSV.git \
     && cd ./Projet7withCSV \
     && git lfs pull -I ./API/data/X_predictionV1.csv \
     && cd ./API \
