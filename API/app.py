@@ -76,6 +76,10 @@ def predict():
         app.logger.info(os.path.exists(processed_data_path))
         try:
             for chunk in pd.read_csv(processed_data_path, chunksize=2000):
+                if 'SK_ID_CURR' not in chunk.columns:
+                    app.logger.error("'SK_ID_CURR' column is missing from the CSV.")
+                    continue
+                app.logger.info(f"Columns in chunk: {chunk.columns.tolist()[:10]}")
                 app.logger.info("Chunk read successfully.")
                 data_row = chunk[chunk['SK_ID_CURR'] == sk_id_curr]
                 if not data_row.empty:
