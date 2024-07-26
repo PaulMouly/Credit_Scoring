@@ -1,3 +1,0 @@
-*.csv filter=lfs diff=lfs merge=lfs -text
-*.h5 filter=lfs diff=lfs merge=lfs -text
-data/application_test.csv filter=lfs diff=lfs merge=lfs -text
