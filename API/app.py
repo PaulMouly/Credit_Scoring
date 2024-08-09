@@ -50,7 +50,7 @@ except Exception as e:
 
 @app.route('/')
 def home():
-    return "Bienvenue à l'application de prédiction"
+    return "Bienvenue dans l'application de prédiction"
 
 @app.route('/predict', methods=['GET'])
 def predict():
