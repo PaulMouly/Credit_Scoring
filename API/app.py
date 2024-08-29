@@ -46,6 +46,9 @@ except Exception as e:
     logger.error(f"Erreur lors de l'extraction des noms de colonnes du modèle : {e}")
     cols_when_model_builds = []
 
+# Définir le seuil de probabilité
+threshold = 0.5  # Remplacez ceci par le seuil que vous avez déterminé
+
 @app.route('/')
 def home():
     return "Bienvenue dans l'application de prédiction"
@@ -112,8 +115,11 @@ def predict():
         try:
             X_np = df.values  # Convertir en matrice NumPy
 
-            # Faire la prédiction
-            prediction = model.predict(X_np)
+            # Faire la prédiction des probabilités
+            predictions_proba = model.predict_proba(X_np)[:, 1]
+
+            # Appliquer le seuil pour déterminer la classe
+            prediction = (predictions_proba > threshold).astype(int)
 
             result = {
                 'SK_ID_CURR': sk_id_curr,
