@@ -1,0 +1,30 @@
+<!-- templates/predict.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prédiction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Prédiction de Modèle</h1>
+    </header>
+    <main>
+        <form action="/predict" method="get">
+            <label for="SK_ID_CURR">Entrez SK_ID_CURR :</label>
+            <input type="text" id="SK_ID_CURR" name="SK_ID_CURR" required>
+            <button type="submit">Prédire</button>
+        </form>
+        {% if prediction is not none %}
+            <h2>Résultat de la Prédiction</h2>
+            <p>SK_ID_CURR : {{ sk_id_curr }}</p>
+            <p>Prédiction : {{ prediction }}</p>
+        {% elif error is not none %}
+            <h2>Erreur</h2>
+            <p>{{ error }}</p>
+        {% endif %}
+    </main>
+</body>
+</html>

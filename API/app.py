@@ -3,9 +3,7 @@ import logging
 import sys
 import joblib
 import pandas as pd
-from flask import Flask, request, jsonify
-
-
+from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
 
@@ -18,7 +16,6 @@ logging.basicConfig(level=logging.INFO,
 
 logger = logging.getLogger(__name__)
 
-    
 # Obtenir le chemin absolu du répertoire courant
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # Spécifier le chemin relatif du fichier de données prétraitées
@@ -47,98 +44,67 @@ except Exception as e:
     cols_when_model_builds = []
 
 # Définir le seuil de probabilité
-threshold = 0.5  # Remplacez ceci par le seuil que vous avez déterminé
+threshold = 0.5  
 
 @app.route('/')
 def home():
-    return "Bienvenue dans l'application de prédiction"
+    return render_template('index.html')
 
-@app.route('/predict', methods=['GET'])
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    try:
+    if request.method == 'POST':
+        sk_id_curr = request.form.get('SK_ID_CURR')
+    else:
         sk_id_curr = request.args.get('SK_ID_CURR')
 
-        if not sk_id_curr:
-            app.logger.warning("SK_ID_CURR non fourni dans la requête")
-            return jsonify({'error': 'Veuillez fournir SK_ID_CURR en paramètre.'}), 400
+    if not sk_id_curr:
+        logger.warning("SK_ID_CURR non fourni dans la requête")
+        return render_template('predict.html', error='Veuillez fournir SK_ID_CURR en paramètre.')
 
-        app.logger.info("SK_ID_CURR reçu %s", {sk_id_curr})
+    try:
+        sk_id_curr = int(sk_id_curr)
+    except ValueError:
+        logger.error(f"SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.")
+        return render_template('predict.html', error=f'SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.')
 
-        # Vérifier que SK_ID_CURR peut être converti en entier
-        try:
-            sk_id_curr = int(sk_id_curr)
-            app.logger.info("Type de sk_id_curr = %s", {type(sk_id_curr)})
-        except ValueError:
-            app.logger.error("SK_ID_CURR %s ne peut pas être converti en entier.", sk_id_curr)
-            return jsonify({'error': f'SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.'}), 400
+    logger.info(f"SK_ID_CURR reçu : {sk_id_curr}")
 
-        # Lire le fichier CSV en morceaux et filtrer les données
-        data_found = False
-        app.logger.info(os.path.exists(processed_data_path))
-        try:
-            for chunk in pd.read_csv(processed_data_path, chunksize=2000):
-                if 'SK_ID_CURR' not in chunk.columns:
-                    app.logger.error("'SK_ID_CURR' column is missing from the CSV.")
-                    continue
-                data_row = chunk[chunk['SK_ID_CURR'] == sk_id_curr]
-                if not data_row.empty:
-                    data_found = True
-                    break
-        except FileNotFoundError:
-            app.logger.error(f"File not found: {processed_data_path}")
-            return jsonify({'error': 'Fichier non trouvé.'}), 404
-        except pd.errors.EmptyDataError:
-            app.logger.error(f"No data: {processed_data_path} is empty or corrupted.")
-            return jsonify({'error': 'Le fichier est vide ou corrompu.'}), 400
-        except Exception as e:
-            app.logger.error(f"An error occurred: {str(e)}")
-            return jsonify({'error': 'Une erreur est survenue lors de la lecture du fichier.'}), 500
-        
-        if not data_found:
-            app.logger.warning("Aucune donnée trouvée pour SK_ID_CURR %s", sk_id_curr)
-            return jsonify({'error': f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.'}), 404
+    data_found = False
+    try:
+        for chunk in pd.read_csv(processed_data_path, chunksize=2000):
+            if 'SK_ID_CURR' not in chunk.columns:
+                logger.error("'SK_ID_CURR' column is missing from the CSV.")
+                continue
+            data_row = chunk[chunk['SK_ID_CURR'] == sk_id_curr]
+            if not data_row.empty:
+                data_found = True
+                break
+    except FileNotFoundError:
+        logger.error(f"Fichier non trouvé : {processed_data_path}")
+        return render_template('predict.html', error='Fichier non trouvé.')
+    except pd.errors.EmptyDataError:
+        logger.error(f"Le fichier est vide ou corrompu : {processed_data_path}")
+        return render_template('predict.html', error='Le fichier est vide ou corrompu.')
+    except Exception as e:
+        logger.error(f"Erreur lors de la lecture du fichier : {str(e)}")
+        return render_template('predict.html', error='Une erreur est survenue lors de la lecture du fichier.')
 
-        try:
-            df = data_row.copy()
-            # Vérifiez la forme des données avant la prédiction
-            app.logger.info("Shape des données avant prédiction : %s", df.shape)
+    if not data_found:
+        logger.warning(f"Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}")
+        return render_template('predict.html', error=f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.')
 
-            # Réorganiser les colonnes selon l'ordre attendu par le modèle
-            df = df[cols_when_model_builds]
-        except KeyError as e:
-            app.logger.error("Erreur lors de la réorganisation des colonnes: %s", e)
-            return jsonify({'error': f"Les colonnes nécessaires pour le modèle sont manquantes : {str(e)}"}), 400
-        except Exception as e:
-            app.logger.error("Erreur lors de la préparation des données pour la prédiction: %s", e)
-            return jsonify({'error': str(e)}), 400
-
-        try:
-            X_np = df.values  # Convertir en matrice NumPy
-
-            # Faire la prédiction des probabilités
-            predictions_proba = model.predict_proba(X_np)[:, 1]
-
-            # Appliquer le seuil pour déterminer la classe
-            prediction = (predictions_proba > threshold).astype(int)
-
-            result = {
-                'SK_ID_CURR': sk_id_curr,
-                'prediction': int(prediction[0])
-            }
-
-            return jsonify(result), 200
-
-        except Exception as e:
-            app.logger.error(f"Erreur lors de la prédiction : {e}")
-            return jsonify({'error': str(e)}), 400
+    try:
+        df = data_row.copy()
+        df = df[cols_when_model_builds]
+        X_np = df.values
+        predictions_proba = model.predict_proba(X_np)[:, 1]
+        prediction = (predictions_proba > threshold).astype(int)
+        result = int(prediction[0])
+        return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result)
 
     except Exception as e:
-        app.logger.error(f"Erreur lors de la gestion de la requête : {e}")
-        return jsonify({'error': str(e)}), 400
-
-
-
-#def 
+        logger.error(f"Erreur lors de la prédiction : {e}")
+        return render_template('predict.html', error=str(e))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
