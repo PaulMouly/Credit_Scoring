@@ -17,10 +17,23 @@
             <input type="text" id="SK_ID_CURR" name="SK_ID_CURR" required>
             <button type="submit">Prédire</button>
         </form>
+        
         {% if prediction is not none %}
             <h2>Résultat de la Prédiction</h2>
             <p>SK_ID_CURR : {{ sk_id_curr }}</p>
-            <p>Prédiction : {{ prediction }}</p>
+
+            <!-- Affichage de la prédiction : Crédit validé ou non -->
+            <p>Prédiction : 
+                {% if prediction == 'crédit validé' %}
+                    Crédit Validé
+                {% else %}
+                    Crédit Non Validé
+                {% endif %}
+            </p>
+
+            <!-- Affichage de l'image correspondante -->
+            <img src="{{ url_for('static', filename='images/prediction_time.png') }}" alt="Status Image">
+
         {% elif error is not none %}
             <h2>Erreur</h2>
             <p>{{ error }}</p>

@@ -27,3 +27,49 @@
 2024-08-09 14:13:29,844 INFO Type de sk_id_curr = {<class 'int'>}
 2024-08-09 14:13:29,844 INFO True
 2024-08-09 14:13:29,956 INFO Shape des données avant prédiction : (1, 499)
+2024-09-16 10:12:53,458 INFO Modèle chargé avec succès
+2024-09-16 10:13:02,021 INFO SK_ID_CURR reçu : 100002
+2024-09-16 10:24:15,765 INFO Modèle chargé avec succès
+2024-09-16 10:24:15,880 INFO SK_ID_CURR reçu : 100002
+2024-09-16 10:24:15,951 WARNING SK_ID_CURR non fourni dans la requête
+2024-09-16 10:24:16,117 ERROR SK_ID_CURR abc ne peut pas être converti en entier.
+2024-09-16 10:24:16,120 INFO SK_ID_CURR reçu : 999999
+2024-09-16 10:24:26,415 WARNING Aucune donnée trouvée pour SK_ID_CURR 999999
+2024-09-16 10:26:34,012 INFO Modèle chargé avec succès
+2024-09-16 10:26:34,120 INFO SK_ID_CURR reçu : 100002
+2024-09-16 10:26:34,195 WARNING SK_ID_CURR non fourni dans la requête
+2024-09-16 10:26:34,355 ERROR SK_ID_CURR abc ne peut pas être converti en entier.
+2024-09-16 10:26:34,357 INFO SK_ID_CURR reçu : 999999
+2024-09-16 10:26:44,898 WARNING Aucune donnée trouvée pour SK_ID_CURR 999999
+2024-09-16 10:30:10,386 INFO Modèle chargé avec succès
+2024-09-16 10:30:10,487 WARNING SK_ID_CURR non fourni dans la requête
+2024-09-16 10:30:10,624 ERROR SK_ID_CURR abc ne peut pas être converti en entier.
+2024-09-16 10:30:10,627 INFO SK_ID_CURR reçu : 999999
+2024-09-16 10:30:20,901 WARNING Aucune donnée trouvée pour SK_ID_CURR 999999
+2024-09-16 10:38:36,532 INFO Modèle chargé avec succès
+2024-09-16 10:41:48,946 INFO Modèle chargé avec succès
+2024-09-16 10:42:48,773 INFO Modèle chargé avec succès
+2024-09-16 10:42:48,881 INFO SK_ID_CURR reçu : 1
+2024-09-16 10:42:59,023 WARNING Aucune donnée trouvée pour SK_ID_CURR 1
+2024-09-16 10:42:59,027 WARNING SK_ID_CURR non fourni dans la requête
+2024-09-16 10:42:59,166 ERROR SK_ID_CURR invalid ne peut pas être converti en entier.
+2024-09-16 10:45:27,012 INFO Modèle chargé avec succès
+2024-09-16 10:45:27,123 INFO SK_ID_CURR reçu : 1
+2024-09-16 10:45:37,384 WARNING Aucune donnée trouvée pour SK_ID_CURR 1
+2024-09-16 10:45:37,388 INFO SK_ID_CURR reçu : 1002
+2024-09-16 10:45:47,490 WARNING Aucune donnée trouvée pour SK_ID_CURR 1002
+2024-09-16 10:47:00,004 INFO Modèle chargé avec succès
+2024-09-16 10:47:00,104 INFO SK_ID_CURR reçu : 1
+2024-09-16 10:47:10,434 WARNING Aucune donnée trouvée pour SK_ID_CURR 1
+2024-09-16 10:48:49,340 INFO Modèle chargé avec succès
+2024-09-16 10:48:49,446 INFO SK_ID_CURR reçu : 1
+2024-09-16 10:48:59,572 WARNING Aucune donnée trouvée pour SK_ID_CURR 1
+2024-09-16 10:48:59,575 INFO SK_ID_CURR reçu : 1002
+2024-09-16 10:49:09,546 WARNING Aucune donnée trouvée pour SK_ID_CURR 1002
+2024-09-16 10:52:33,211 INFO Modèle chargé avec succès
+2024-09-16 10:52:33,316 INFO SK_ID_CURR reçu : 1
+2024-09-16 10:52:43,508 WARNING Aucune donnée trouvée pour SK_ID_CURR 1
+2024-09-16 10:59:24,534 INFO Modèle chargé avec succès
+2024-09-16 10:59:24,639 INFO SK_ID_CURR reçu : 1
+2024-09-16 10:59:34,899 WARNING Aucune donnée trouvée pour SK_ID_CURR 1
+2024-09-16 10:59:34,902 INFO SK_ID_CURR reçu : 100002
