@@ -1,18 +1,37 @@
-# Projet 7
+# API Development
 
 ## Objectif du projet
-L’objectif de ce projet est de développer un outil de scoring crédit pour l'entreprise Prêt à dépenser. Cet outil sera capable de calculer la probabilité qu’un client rembourse son crédit et de classifier la demande en crédit accordé ou refusé. Pour atteindre cet objectif, nous allons développer un algorithme de classification en utilisant diverses sources de données, incluant les données comportementales des clients, les données provenant d'autres institutions financières, et d'autres sources pertinentes.
-
-L'outil de scoring crédit permettra à l'entreprise de prendre des décisions éclairées et rapides concernant l'octroi de crédits, en minimisant les risques financiers et en optimisant la gestion des prêts.
+Cette branche se concentre sur le développement et le déploiement de l'API pour l'outil de scoring crédit. L'API est conçue pour intégrer le modèle de prédiction de crédit dans une interface web, permettant ainsi des prédictions en temps réel via des requêtes. Le développement inclut également des tests unitaires pour assurer la robustesse et la fiabilité de l'API.
 
 ## Structure du projet
-- `data/` : Contient les jeux de données.
-- `scripts/` : Contient les scripts Python pour entraîner et évaluer les modèles.
-- `notebooks/` : Contient les notebooks Jupyter pour l'exploration et l'analyse des données.
-- `models/` : Contient les modèles formés.
-- `api/` : Contiendra l'API pour déployer les modèles (à créer plus tard).
+
+- `API/` : Contient les fichiers de l'API et les configurations nécessaires pour le déploiement.
+  - `__pycache__/` : Répertoire généré automatiquement contenant les fichiers compilés Python.
+  - `__init__.py` : Fichier d'initialisation pour le package Python.
+  - `app.py` : Script principal de l'application Flask pour l'API.
+  - `app.log` : Fichier de log pour l'application.
+  - `conftest.py` : Configuration pour les tests avec pytest.
+  - `test_api1.py` : Premier fichier de test pour l'API.
+  - `test_api2.py` : Deuxième fichier de test pour l'API.
+  - `tests/` : Répertoire contenant les tests unitaires.
+- `data/` : Contient les données nécessaires pour les prédictions.
+  - `X_predictionV1.csv` : Jeu de données utilisé pour les prédictions.
+- `model/` : Contient les modèles pré-entraînés.
+  - `xgboost_model.pkl` : Modèle XGBoost utilisé pour les prédictions.
+- `static/` : Contient les fichiers statiques pour l'interface utilisateur.
+  - `images/` : Dossier contenant les images utilisées dans l'interface utilisateur.
+    - `prediction_time.png` : Image affichée dans l'interface utilisateur.
+  - `styles.css` : Fichier CSS pour le style de l'interface utilisateur.
+- `templates/` : Contient les fichiers de template HTML pour l'interface utilisateur.
+  - `index.html` : Page d'accueil de l'application.
+  - `predict.html` : Page de prédiction affichant les résultats.
+- `Procfile` : Fichier de configuration pour le déploiement sur Heroku.
+- `Dockerfile` : Fichier de configuration pour la création de l'image Docker de l'application.
+- `heroku.yml` : Fichier de configuration pour le déploiement sur Heroku.
+- `requirements.txt` : Liste des dépendances Python nécessaires pour le projet.
 
 ## Instructions
-1. Clonez ce dépôt : `git clone https://github.com/votre-utilisateur/projet-7.git`
+
+1. Clonez ce dépôt : `git clone https://github.com/votre-utilisateur/projet-api-development.git`
 2. Installez les dépendances : `pip install -r requirements.txt`
-3. Exécutez les scripts dans `scripts/` pour entraîner les modèles.
+3. Exécutez l'application Flask 
