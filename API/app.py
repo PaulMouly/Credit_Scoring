@@ -99,9 +99,12 @@ def predict():
         X_np = df.values
         predictions_proba = model.predict_proba(X_np)[:, 1]
         prediction = (predictions_proba > threshold).astype(int)
-        ###result = int(prediction[0])
         result_text = "crédit validé" if int(prediction[0]) == 0 else "crédit non validé"
-        ###return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result)
+        
+        # Retourne à la fois le rendu HTML et la réponse JSON
+        if request.headers.get('Accept') == 'application/json':
+            return jsonify({"sk_id_curr": sk_id_curr, "prediction": result_text})
+
         return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result_text)
 
     except Exception as e:
