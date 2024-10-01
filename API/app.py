@@ -59,13 +59,13 @@ def predict():
 
     if not sk_id_curr:
         logger.warning("SK_ID_CURR non fourni dans la requête")
-        return jsonify({"error": "Veuillez fournir SK_ID_CURR en paramètre."}), 400
+        return render_template('predict.html', error='Veuillez fournir SK_ID_CURR en paramètre.')
 
     try:
         sk_id_curr = int(sk_id_curr)
     except ValueError:
         logger.error(f"SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.")
-        return jsonify({"error": f'SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.'}), 400
+        return render_template('predict.html', error=f'SK_ID_CURR {sk_id_curr} ne peut pas être converti en entier.')
 
     logger.info(f"SK_ID_CURR reçu : {sk_id_curr}")
 
@@ -81,17 +81,17 @@ def predict():
                 break
     except FileNotFoundError:
         logger.error(f"Fichier non trouvé : {processed_data_path}")
-        return jsonify({"error": 'Fichier non trouvé.'}), 404
+        return render_template('predict.html', error='Fichier non trouvé.')
     except pd.errors.EmptyDataError:
         logger.error(f"Le fichier est vide ou corrompu : {processed_data_path}")
-        return jsonify({"error": 'Le fichier est vide ou corrompu.'}), 500
+        return render_template('predict.html', error='Le fichier est vide ou corrompu.')
     except Exception as e:
         logger.error(f"Erreur lors de la lecture du fichier : {str(e)}")
-        return jsonify({"error": 'Une erreur est survenue lors de la lecture du fichier.'}), 500
+        return render_template('predict.html', error='Une erreur est survenue lors de la lecture du fichier.')
 
     if not data_found:
         logger.warning(f"Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}")
-        return jsonify({"error": f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.'}), 404
+        return render_template('predict.html', error=f'Aucune donnée trouvée pour SK_ID_CURR {sk_id_curr}.')
 
     try:
         df = data_row.copy()
@@ -101,12 +101,15 @@ def predict():
         prediction = (predictions_proba > threshold).astype(int)
         result_text = "crédit validé" if int(prediction[0]) == 0 else "crédit non validé"
         
-        # Retourne la réponse JSON
-        return jsonify({"sk_id_curr": sk_id_curr, "prediction": result_text})
+        # Retourne à la fois le rendu HTML et la réponse JSON
+        if request.headers.get('Accept') == 'application/json':
+            return jsonify({"sk_id_curr": sk_id_curr, "prediction": result_text})
+
+        return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result_text)
 
     except Exception as e:
         logger.error(f"Erreur lors de la prédiction : {e}")
-        return jsonify({"error": str(e)}), 500
+        return render_template('predict.html', error=str(e))
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
