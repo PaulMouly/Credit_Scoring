@@ -31,6 +31,9 @@
                 {% endif %}
             </p>
 
+            <!-- Affichage de la probabilité de la prédiction -->
+            <p>Probabilité : {{ probability | round(2) }}</p>
+
             <!-- Affichage de l'image correspondante -->
             <img src="{{ url_for('static', filename='images/prediction_time.png') }}" alt="Status Image">
 

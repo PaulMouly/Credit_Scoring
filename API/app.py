@@ -99,10 +99,12 @@ def predict():
         X_np = df.values
         predictions_proba = model.predict_proba(X_np)[:, 1]
         prediction = (predictions_proba > threshold).astype(int)
-        ###result = int(prediction[0])
+        
+        # Récupérer la probabilité pour le retour
+        predicted_probability = predictions_proba[0]  # Obtenir la probabilité pour la première entrée
         result_text = "crédit validé" if int(prediction[0]) == 0 else "crédit non validé"
-        ###return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result)
-        return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result_text)
+        
+        return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result_text, probability=predicted_probability)
 
     except Exception as e:
         logger.error(f"Erreur lors de la prédiction : {e}")
