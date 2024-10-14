@@ -3,10 +3,14 @@ import logging
 import sys
 import joblib
 import pandas as pd
+import numpy as np
 from flask import Flask, request, render_template, jsonify
+import shap  # Assurez-vous d'installer la librairie SHAP
+# ou import lime si vous choisissez LIME
 
 app = Flask(__name__)
 
+# Configuration de logging
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s',
                     handlers=[
@@ -18,10 +22,9 @@ logger = logging.getLogger(__name__)
 
 # Obtenir le chemin absolu du répertoire courant
 current_dir = os.path.dirname(os.path.abspath(__file__))
-# Spécifier le chemin relatif du fichier de données prétraitées
 processed_data_path = os.path.join(current_dir, 'data', 'X_predictionV1.csv')
-# Spécifier le chemin relatif du fichier modèle
 model_path = os.path.join(current_dir, 'model', 'xgboost_model.pkl')
+
 # Charger le modèle
 try:
     model = joblib.load(model_path)
@@ -43,7 +46,6 @@ except Exception as e:
     logger.error(f"Erreur lors de l'extraction des noms de colonnes du modèle : {e}")
     cols_when_model_builds = []
 
-# Définir le seuil de probabilité
 threshold = 0.5  
 
 @app.route('/')
@@ -101,10 +103,21 @@ def predict():
         prediction = (predictions_proba > threshold).astype(int)
         
         # Récupérer la probabilité pour le retour
-        predicted_probability = predictions_proba[0]  # Obtenir la probabilité pour la première entrée
+        predicted_probability = predictions_proba[0]
         result_text = "crédit validé" if int(prediction[0]) == 0 else "crédit non validé"
         
-        return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result_text, probability=predicted_probability)
+        # Calculer l'importance des features locales
+        explainer = shap.Explainer(model)
+        shap_values = explainer(X_np)
+        local_feature_importance = pd.DataFrame(shap_values.values, columns=cols_when_model_builds)
+        
+        # Pour visualiser ou retourner les importances
+        local_importance_values = local_feature_importance.iloc[0].sort_values(ascending=False)
+
+        # Retourner les résultats
+        return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result_text, 
+                               probability=predicted_probability, 
+                               local_importance=local_importance_values.to_json())
 
     except Exception as e:
         logger.error(f"Erreur lors de la prédiction : {e}")
