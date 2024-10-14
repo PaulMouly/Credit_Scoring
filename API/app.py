@@ -5,8 +5,7 @@ import joblib
 import pandas as pd
 import numpy as np
 from flask import Flask, request, render_template, jsonify
-import shap  # Assurez-vous d'installer la librairie SHAP
-# ou import lime si vous choisissez LIME
+import shap 
 
 app = Flask(__name__)
 
@@ -101,23 +100,27 @@ def predict():
         X_np = df.values
         predictions_proba = model.predict_proba(X_np)[:, 1]
         prediction = (predictions_proba > threshold).astype(int)
-        
+
         # Récupérer la probabilité pour le retour
         predicted_probability = predictions_proba[0]
         result_text = "crédit validé" if int(prediction[0]) == 0 else "crédit non validé"
-        
-        # Calculer l'importance des features locales
+
+        # Calculer l'importance des features locales avec SHAP
         explainer = shap.Explainer(model)
         shap_values = explainer(X_np)
         local_feature_importance = pd.DataFrame(shap_values.values, columns=cols_when_model_builds)
         
-        # Pour visualiser ou retourner les importances
+        # Extraire les valeurs d'importance locale du premier client (si X_np ne contient qu'une ligne, ce sera le premier)
         local_importance_values = local_feature_importance.iloc[0].sort_values(ascending=False)
 
-        # Retourner les résultats
-        return render_template('predict.html', sk_id_curr=sk_id_curr, prediction=result_text, 
+        # Limiter aux top 10 features les plus importantes
+        top_features = local_importance_values.head(10)
+
+        # Retourner les résultats dans la vue HTML
+        return render_template('predict.html', sk_id_curr=sk_id_curr, 
+                               prediction=result_text, 
                                probability=predicted_probability, 
-                               local_importance=local_importance_values.to_json())
+                               feature_importance=top_features)
 
     except Exception as e:
         logger.error(f"Erreur lors de la prédiction : {e}")

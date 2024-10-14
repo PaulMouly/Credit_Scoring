@@ -1,4 +1,3 @@
-<!-- templates/predict.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +32,14 @@
 
             <!-- Affichage de la probabilité de la prédiction -->
             <p>Probabilité : {{ probability | round(2) }}</p>
+
+            <!-- Affichage des features importantes locales -->
+            <h3>Importance Locale des Features</h3>
+            <ul>
+                {% for feature, importance in feature_importance.items() %}
+                    <li>{{ feature }} : {{ importance | round(3) }}</li>
+                {% endfor %}
+            </ul>
 
             <!-- Affichage de l'image correspondante -->
             <img src="{{ url_for('static', filename='images/prediction_time.png') }}" alt="Status Image">
